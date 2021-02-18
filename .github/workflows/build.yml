@@ -21,4 +21,4 @@ jobs:
           ./gradlew clean
           ./gradlew assembleRelease
       - name: Upload
-          run: ./gradlew publish
+        run: ./gradlew publish
