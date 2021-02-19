@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 ext {
 
     minSdkVersion = 19
@@ -8,52 +10,42 @@ ext {
     mockitoKotlin = '2.2.0'
     lifecycle = '2.2.0'
 
-    final PARTS_VERSION_MAX_DIGIT_COUNT = 2
     final PARTS_VERSION_TOTAL_COUNT = 3
     final PARTS_VERSION_POSITION_MAJOR = 0
     final PARTS_VERSION_POSITION_MINOR = 1
     final PARTS_VERSION_POSITION_PATCH = 2
-    final PARTS_VERSION_POSITION_ALPHA = 3
 
-    File versionFile = file(".version")
+    File versionFile = file("package.json")
     List<Integer> versionParts
     if (versionFile.exists()) {
-        versionParts = versionFile.readLines().first().split("\\.").collect { partVersion ->
-            String errorNumberFormatMessage = "Parts of version must be number of one or two digit"
-            try {
-                if (partVersion.size() > PARTS_VERSION_MAX_DIGIT_COUNT) throw new NumberFormatException(errorNumberFormatMessage)
-                Integer.parseInt(partVersion)
-            } catch (NumberFormatException ex) {
-                throw ex(errorNumberFormatMessage)
+        def parser = new JsonSlurper()
+        def jsonResp = parser.parseText(versionFile.text)
+        if(jsonResp.version != null){
+            versionParts = jsonResp.version.split("\\.").collect { partVersion ->
+                String errorNumberFormatMessage = "Parts of version must be number"
+                try {
+                    Integer.parseInt(partVersion)
+                } catch (NumberFormatException ex) {
+                    throw ex(errorNumberFormatMessage)
+                }
             }
         }
-
         if (versionParts.size() < PARTS_VERSION_TOTAL_COUNT)
-            throw new IllegalStateException(".version file must contains at least major.minor.patch and as addition - alpha " +
-                    "e.g. 5.8.0 or 5.8.0.1")
+            throw new IllegalStateException("package.json file must contains field version  at least major.minor.patch" +
+                    "e.g. \"version\": \"1.0.2\"")
     } else throw new IllegalStateException(
-            "Can't find .version file.\nCreate .version file in root of project " +
-                    "and write app version in the format major.minor.patch.alpha (e.g. 5.8.0.1).\n" +
-                    "Version variables must not be longer than two digits."
+            "Can't find package.json file.\nCreate package.json file in root of project " +
+                    "and write app version in the format major.minor.patch.alpha (e.g. \"version\": \"1.0.2\").\n"
     )
 
     versionMajor = versionParts[PARTS_VERSION_POSITION_MAJOR]
     versionMinor = versionParts[PARTS_VERSION_POSITION_MINOR]
     versionPatch = versionParts[PARTS_VERSION_POSITION_PATCH]
-    if (versionParts.size() > PARTS_VERSION_TOTAL_COUNT) {
-        versionAlpha = versionParts[PARTS_VERSION_POSITION_ALPHA]
-    } else {
-        versionAlpha = 0
-    }
 
-    isBeta = false
-
-    getAppVersionCode = { versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionAlpha }
+    getAppVersionCode = { versionMajor * 1000000 + versionMinor * 10000 + versionPatch }
 
     getAppVersionName = {
-        isBeta ?
-                "$versionMajor.$versionMinor.$versionPatch (Beta ${versionAlpha + 1})" :
-                "$versionMajor.$versionMinor.$versionPatch${if(versionAlpha > 0) ".$versionAlpha" else ""}"
+        "$versionMajor.$versionMinor.$versionPatch"
     }
 
     zipReleaseName = {
