@@ -32,3 +32,4 @@ task clean(type: Delete) {
 
 apply from: 'common.gradle'
 apply from: 'ktlint.gradle'
+apply from: 'versions.gradle'
