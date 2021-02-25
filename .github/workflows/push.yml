@@ -25,13 +25,13 @@ jobs:
           java-version: 1.8
 
       - name: Release build
-          run: ./gradlew assemble
+        run: ./gradlew assemble
 
       - name: Tests
-          run: ./gradlew test
+        run: ./gradlew test
 
       - name: Increase Version Code
-          run: ./gradlew increaseVersionCode
+        run: ./gradlew increaseVersionCode
 
       - name: Commit changes
         uses: actions-js/push@v1.2
