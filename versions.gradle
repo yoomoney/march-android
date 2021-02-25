@@ -1,18 +1,9 @@
 task increaseVersionCode {
     group 'versions'
-
-    File versionFile = file(".versionCode")
-    Integer versionCode
-    if (versionFile.exists()) {
-        try {
-            versionCode = ++Integer.parseInt(versionFile.text)
-            versionFile.write(versionCode.toString())
-        } catch (NumberFormatException ex) {
-            throw ex(errorNumberFormatMessage)
-        }
-    } else throw new IllegalStateException(
-            "Can't find .version file.\nCreate .versionCode file in root of project " +
-                    "and write code version in the format number(e.g. 1).\n"
-    )
+    doLast {
+        File versionFile = file(".versionCode")
+        Integer versionCode = ++getAppVersionCode()
+        versionFile.write(versionCode.toString())
+    }
 }
 

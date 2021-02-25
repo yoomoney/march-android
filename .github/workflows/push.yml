@@ -1,0 +1,40 @@
+name: Push_actions
+
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  Unit-test:
+    name: Run unit tests on PR in main
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Release build
+        run: ./gradlew assemble
+
+      - name: Tests
+        run: ./gradlew test
+
+      - name: Increase Version Code
+        run: ./gradlew increaseVersionCode
+
+      - name: Commit changes
+        uses: actions-js/push@v1.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: Increase Version Code
