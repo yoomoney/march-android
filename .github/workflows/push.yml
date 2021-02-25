@@ -2,14 +2,14 @@ name: Push_actions
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   Unit-test:
-    name: Run unit tests on PR in main
+    name: Build test and increase Version Code
     runs-on: ubuntu-20.04
 
     steps:
