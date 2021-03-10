@@ -1,0 +1,53 @@
+name: PushFlow
+
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  pushJob:
+    name: Build, test and increase Version Code
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Increase Version Code
+        run: ./gradlew increaseVersionCode
+
+      - name: Release build
+        run: ./gradlew assemble
+
+      - name: Tests
+        run: ./gradlew test
+
+      - name: Read versionName
+        id: version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./.version
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add ./.version_code
+          git commit -m "Increase Version Code"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
