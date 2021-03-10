@@ -4,6 +4,7 @@
 *.ap_
 *.aab
 
+
 # Files for the ART/Dalvik VM
 *.dex
 
@@ -18,8 +19,12 @@ out/
 # release/
 
 # Gradle files
-.gradle/
-build/
+.gradle
+/build
+/*/build/
+
+# Idea files
+/.idea
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -29,6 +34,9 @@ proguard/
 
 # Log Files
 *.log
+
+# Keys Files
+*.gpg
 
 # Android Studio Navigation editor temp files
 .navigation/
@@ -61,18 +69,6 @@ captures/
 
 # Google Services (e.g. APIs or Firebase)
 # google-services.json
-
-# Freeline
-freeline.py
-freeline/
-freeline_project_description.json
-
-# fastlane
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots
-fastlane/test_output
-fastlane/readme.md
 
 # Version control
 vcs.xml
