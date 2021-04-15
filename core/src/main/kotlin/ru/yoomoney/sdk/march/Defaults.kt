@@ -44,9 +44,7 @@ object Defaults {
 
     fun <ACTION : Any> actionsChannel(log: (String) -> Unit): Channel<ACTION> =
         LoggingChannel(Channel(Channel.CONFLATED)) {
-            if (BuildConfig.DEBUG) {
-                log("Action:    $it")
-            }
+            log("Action:    $it")
         }
 
     fun <STATE : Any, ACTION : Any, EFFECT : Any> businessLogicOutput(): Channel<Triple<STATE, Command<*, ACTION>?, EFFECT?>> =
@@ -54,30 +52,22 @@ object Defaults {
 
     fun <ACTION : Any> commandsChannel(log: (String) -> Unit): Channel<Command<*, ACTION>?> =
         LoggingChannel(Channel(Channel.CONFLATED)) {
-            if (BuildConfig.DEBUG) {
-                log("Command:   ${it?.toString().orEmpty()}")
-            }
+            log("Command:   ${it?.toString().orEmpty()}")
         }
 
     fun <EFFECT> effectsChannel(log: (String) -> Unit): Channel<EFFECT> =
         LoggingChannel(Channel(Channel.CONFLATED)) {
-            if (BuildConfig.DEBUG) {
-                log("Effect:    $it")
-            }
+            log("Effect:    $it")
         }
 
     fun exceptionChannel(log: (String) -> Unit): Channel<Throwable> =
         LoggingChannel(Channel(Channel.CONFLATED)) {
-            if (BuildConfig.DEBUG) {
-                log("Exception: $it")
-            }
+            log("Exception: $it")
         }
 
     fun <STATE> sendState(sendState: (STATE) -> Unit, log: (String) -> Unit): (STATE) -> Unit =
         LoggingFunction(sendState) {
-            if (BuildConfig.DEBUG) {
-                log("State:     $it")
-            }
+            log("State:     $it")
         }
 
     fun log(featureName: String): (Any?) -> Unit = {
