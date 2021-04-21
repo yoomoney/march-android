@@ -71,6 +71,8 @@ object Defaults {
         }
 
     fun log(featureName: String): (Any?) -> Unit = {
-        Log.d(featureName, it?.toString().orEmpty())
+        if (isLoggingEnable) {
+            Log.d(featureName, it?.toString().orEmpty())
+        }
     }
 }
