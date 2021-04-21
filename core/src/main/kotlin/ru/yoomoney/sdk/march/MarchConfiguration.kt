@@ -22,4 +22,6 @@
 
 package ru.yoomoney.sdk.march
 
-var isLoggingEnable: Boolean = false
+object MarchConfiguration {
+    var isLoggingEnable: Boolean = false
+}

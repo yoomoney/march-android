@@ -71,7 +71,7 @@ object Defaults {
         }
 
     fun log(featureName: String): (Any?) -> Unit = {
-        if (isLoggingEnable) {
+        if (MarchConfiguration.isLoggingEnable) {
             Log.d(featureName, it?.toString().orEmpty())
         }
     }
