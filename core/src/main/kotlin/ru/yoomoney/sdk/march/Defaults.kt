@@ -30,6 +30,8 @@ import kotlinx.coroutines.channels.SendChannel
 
 object Defaults {
 
+    var isLoggingEnable: Boolean = false
+
     fun <STATE : Any, ACTION : Any, EFFECT : Any> businessLogicExecutionStrategy(): suspend (ReceiveChannel<ACTION>, SendChannel<Triple<STATE, Command<*, ACTION>?, EFFECT?>>, STATE, (STATE, ACTION) -> Triple<STATE, Command<*, ACTION>?, EFFECT?>) -> Unit =
         ::BusinessLogicExecutionStrategyV1
 
@@ -71,6 +73,8 @@ object Defaults {
         }
 
     fun log(featureName: String): (Any?) -> Unit = {
-        Log.d(featureName, it?.toString().orEmpty())
+        if (isLoggingEnable) {
+            Log.d(featureName, it?.toString().orEmpty())
+        }
     }
 }
