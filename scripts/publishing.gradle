@@ -73,11 +73,11 @@ publishing {
             pom {
                 name = PUBLISH_ARTIFACT_ID
                 description = 'Arhitecture android library'
-                url = 'https://github.com/yoomoney-tech/march-android'
+                url = 'https://github.com/yoomoney/march-android'
                 licenses {
                     license {
                         name = 'Stream License'
-                        url = 'https://github.com/yoomoney-tech/march-android/blob/main/LICENSE'
+                        url = 'https://github.com/yoomoney/march-android/blob/main/LICENSE'
                     }
                 }
                 developers {
@@ -88,9 +88,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:github.com/yoomoney-tech/march-android.git'
-                    developerConnection = 'scm:git:ssh://github.com/yoomoney-tech/march-android.git'
-                    url = 'https://github.com/yoomoney-tech/march-android/tree/main'
+                    connection = 'scm:git:github.com/yoomoney/march-android.git'
+                    developerConnection = 'scm:git:ssh://github.com/yoomoney/march-android.git'
+                    url = 'https://github.com/yoomoney/march-android/tree/main'
                 }
                 withXml {
                     def dependenciesNode = asNode().appendNode('dependencies')
