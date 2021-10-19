@@ -1,2 +1,2 @@
-include(":core")
+include(":march")
 rootProject.name = "march"
