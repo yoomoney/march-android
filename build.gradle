@@ -4,7 +4,7 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven {
             url 'https://plugins.gradle.org/m2/'
         }
@@ -20,7 +20,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven {
             url 'https://plugins.gradle.org/m2/'
         }
@@ -32,6 +32,5 @@ task clean(type: Delete) {
 }
 
 apply from: 'scripts/common.gradle'
-apply from: 'scripts/ktlint.gradle'
 apply from: 'scripts/versions.gradle'
 apply plugin: 'io.codearte.nexus-staging'
